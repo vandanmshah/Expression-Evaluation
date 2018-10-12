@@ -41,17 +41,26 @@
 		var total = 0;
 		var isOpStored = false;
 		var op;
-		var preValue;
+		var preValue = "";
+		var currentValue = ""
 		for (var j in expr) {
 			if (isOpStored) {
-				preValue = _getValue(preValue, expr[j], op)
-				isOpStored = false;
+				if (expr.length === (Number(j)+1)) {
+					currentValue += expr[j];
+				}
+				if ( isNaN( Number(expr[j]) ) || expr.length === (Number(j)+1) ) {
+					preValue = _getValue(preValue, currentValue, op)
+					op = expr[j];
+					currentValue = "";
+				} else {
+					currentValue += expr[j];
+				}
 			} else {
 				if ( isNaN( Number(expr[j]) ) ) {
 					op = expr[j];
 					isOpStored = true;
 				} else {
-					preValue = expr[j];
+					preValue += expr[j];
 				}
 			}
 		}
